@@ -752,6 +752,120 @@
       animation: fadeInUp 1s ease forwards;
     }
     .hero-right { animation-delay: 0.3s; }
+
+    /* === HAMBURGER === */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      height: 60px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--dark);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    nav.nav-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    nav.nav-open .nav-hamburger span:nth-child(2) { opacity: 0; }
+    nav.nav-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        padding: 0 16px;
+        justify-content: flex-end;
+        align-items: center;
+        min-height: 60px;
+      }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 0;
+        padding: 4px 0 16px;
+      }
+      nav.nav-open .nav-links { display: flex; }
+      .nav-links a {
+        padding: 12px 4px;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(44,33,24,0.08);
+      }
+      .nav-links .btn-nav {
+        margin-top: 12px;
+        text-align: center;
+        border-radius: 50px;
+        padding: 10px 20px;
+        border: 1.5px solid var(--dark);
+        align-self: center;
+        width: auto;
+      }
+
+      .logo { top: 10px; left: 14px; width: 44px; height: 44px; }
+      .logo-monogram { font-size: 13px; letter-spacing: 0.5px; }
+
+      .hero {
+        flex-direction: column;
+        padding: 90px 24px 60px;
+        gap: 36px;
+        align-items: center;
+      }
+      .hero-right { display: flex; justify-content: center; }
+      .hero-names { font-size: 52px; }
+      .hero-names .amp { font-size: 40px; }
+      .arch-photo { width: 200px; height: 280px; border-radius: 100px 100px 0 0; }
+      .hero-badge { left: auto; right: -16px; bottom: 16px; width: 110px; height: 110px; }
+
+      .info-cards { flex-direction: column; padding: 0 24px; gap: 40px; }
+      .info-card { padding: 0 8px; }
+      .info-card:not(:last-child)::after { display: none; }
+
+      .bottom-section { padding: 60px 24px; }
+      .bottom-inner { flex-direction: column; gap: 40px; align-items: center; }
+      .bottom-left .serif-large { font-size: 44px; }
+      .countdown-card { width: 100%; max-width: 320px; }
+
+      .map-section { padding: 60px 24px; }
+      .map-container { grid-template-columns: 1fr; padding: 0; }
+      .map-locations { flex-direction: column; gap: 20px; }
+
+      .travel-inner { padding: 0 24px; }
+      .travel-grid { grid-template-columns: 1fr; gap: 20px; }
+
+      .timeline-section { padding: 60px 24px; }
+      .timeline { max-width: 100%; padding-left: 52px; }
+
+      .map-section h2, .travel-section h2, .timeline-section h2,
+      .speeches-section h2, .gifts-section h2, .kids-section h2,
+      .faq-section h2, .dresscode-section h2 { font-size: 28px; padding: 0 24px; }
+
+      .faq-list { padding: 0 24px; }
+      .dresscode-section { padding: 60px 24px; }
+      .speeches-section, .gifts-section, .kids-section { padding: 60px 24px; }
+      footer { padding: 40px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-names { font-size: 40px; }
+      .hero-names .amp { font-size: 30px; }
+      .countdown { gap: 10px; }
+      .countdown-item .num { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -763,12 +877,17 @@
 
   <!-- Navigation -->
   <nav>
-    <a href="#hem">Hem</a>
-    <a href="#schema">Schema</a>
-    <a href="#vigseln">Vigseln</a>
-    <a href="#resa">Resa & Boende</a>
-    <a href="#faq">FAQ</a>
-    <a href="#osa" class="btn-nav">OSA senast 1 sept</a>
+    <button class="nav-hamburger" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="#hem">Hem</a>
+      <a href="#schema">Schema</a>
+      <a href="#vigseln">Vigseln</a>
+      <a href="#resa">Resa & Boende</a>
+      <a href="#faq">FAQ</a>
+      <a href="#osa" class="btn-nav">OSA senast 1 sept</a>
+    </div>
   </nav>
 
   <!-- Hero Section -->
@@ -1143,6 +1262,19 @@
       updateCountdown();
       setInterval(updateCountdown, 1000);
     })();
+
+    // Hamburger menu
+    var navEl = document.querySelector('nav');
+    document.querySelector('.nav-hamburger').addEventListener('click', function(e) {
+      e.stopPropagation();
+      navEl.classList.toggle('nav-open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() { navEl.classList.remove('nav-open'); });
+    });
+    document.addEventListener('click', function(e) {
+      if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
+    });
   </script>
 </body>
 </html>
