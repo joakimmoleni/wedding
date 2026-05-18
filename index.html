@@ -15,9 +15,13 @@
       --sage: #c8d4a9;
       --blush: #e2c4b0;
       --terracotta: #daaf93;
+      --gold: #c9a96e;
       --dark: #2c2118;
       --sage-light: #c8d4a9;
       --blush-light: #f5e6db;
+      --shadow-sm: 0 2px 8px rgba(44,33,24,0.04);
+      --shadow-md: 0 8px 32px rgba(44,33,24,0.06);
+      --shadow-lg: 0 16px 48px rgba(44,33,24,0.08);
     }
 
     body {
@@ -26,6 +30,17 @@
       color: var(--dark);
       overflow-x: hidden;
       font-weight: 300;
+    }
+
+    /* Premium texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.018;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
     .serif { font-family: 'Cormorant Garamond', serif; }
@@ -40,11 +55,17 @@
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      border: 1.5px solid var(--dark);
+      border: 1.5px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--cream);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-lg);
     }
     .logo-monogram {
       font-family: 'Cormorant Garamond', serif;
@@ -72,8 +93,15 @@
       justify-content: center;
       gap: 28px;
       padding: 24px 120px;
-      background: rgba(250, 246, 241, 0.92);
-      backdrop-filter: blur(8px);
+      background: rgba(250, 246, 241, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+      transition: padding 0.3s ease, box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      padding: 16px 120px;
+      box-shadow: 0 4px 20px rgba(44,33,24,0.06);
     }
     nav a {
       text-decoration: none;
@@ -86,18 +114,20 @@
     }
     nav a:hover { color: var(--terracotta); }
     nav .btn-nav {
-      border: 1.5px solid var(--dark);
+      border: 1.5px solid var(--gold);
       border-radius: 50px;
       padding: 8px 20px;
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 500;
-      transition: all 0.3s;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     nav .btn-nav:hover {
-      background: var(--dark);
-      color: var(--cream);
+      background: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(201,169,110,0.3);
+      transform: translateY(-1px);
     }
 
     /* === HERO === */
@@ -133,10 +163,23 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       line-height: 1.1;
+      background: linear-gradient(135deg, var(--dark) 0%, #4a3628 50%, var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 6s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
     }
     .hero-names .amp {
       font-style: italic;
-      color: var(--terracotta);
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       font-size: 54px;
       display: block;
       margin: 4px 0;
@@ -145,7 +188,7 @@
     .hero-separator {
       width: 1px;
       height: 48px;
-      background: var(--dark);
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
       margin: 28px 0;
     }
     .hero-date {
@@ -175,6 +218,12 @@
       height: 420px;
       border-radius: 150px 150px 0 0;
       background: url('sara-joakim.png') center/cover no-repeat;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(201,169,110,0.15);
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
+    }
+    .hero-right:hover .arch-photo {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 64px rgba(44,33,24,0.12), 0 0 0 1px rgba(201,169,110,0.2);
     }
     .hero-badge {
       position: absolute;
@@ -183,12 +232,18 @@
       width: 130px;
       height: 130px;
       border-radius: 50%;
-      background: var(--terracotta);
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 16px;
+      box-shadow: 0 8px 24px rgba(218,175,147,0.4);
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
     .hero-badge span {
       color: #fff;
@@ -249,6 +304,11 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 24px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .info-card:hover .info-icon {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
     .info-icon.sage-bg { background: var(--sage-light); }
     .info-icon.blush-bg { background: var(--blush); }
@@ -323,10 +383,15 @@
     .countdown-card {
       width: 340px;
       flex-shrink: 0;
-      background: var(--sage);
+      background: linear-gradient(180deg, var(--sage) 0%, #b8c89a 100%);
       border-radius: 170px 170px 24px 24px;
       padding: 60px 32px 48px;
       text-align: center;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.4s ease;
+    }
+    .countdown-card:hover {
+      transform: translateY(-4px);
     }
     .countdown-card .label {
       font-size: 10px;
@@ -366,7 +431,7 @@
     }
     .btn-osa {
       display: inline-block;
-      background: var(--terracotta);
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
       color: #fff;
       border: none;
       border-radius: 50px;
@@ -377,9 +442,14 @@
       font-weight: 500;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 4px 16px rgba(218,175,147,0.3);
     }
-    .btn-osa:hover { background: #b5724f; }
+    .btn-osa:hover {
+      background: linear-gradient(135deg, #c4956d, #b8944e);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(218,175,147,0.45);
+    }
 
     /* === MAP SECTION === */
     .map-section {
@@ -402,54 +472,95 @@
       font-weight: 300;
     }
     .map-container {
-      max-width: 1000px;
+      max-width: 800px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 32px;
       padding: 0;
     }
     .map-box {
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
-      border: 1px solid #e0dbd5;
+      border: 1px solid rgba(201,169,110,0.15);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      background: #fff;
+      padding: 40px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    .map-box iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-      display: block;
+    .map-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .map-box-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+    .map-box-icon.church { background: var(--sage-light); }
+    .map-box-icon.party { background: var(--blush); }
+    .map-box-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--dark);
+      stroke-width: 1.5;
+      fill: none;
     }
     .map-box-label {
-      text-align: center;
-      padding: 12px;
-      font-size: 11px;
-      letter-spacing: 0.15em;
+      font-size: 12px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
-      background: rgba(255,255,255,0.5);
+      color: var(--dark);
     }
-    .map-locations {
-      max-width: 800px;
-      margin: 32px auto 0;
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-    }
-    .map-location {
-      text-align: center;
-    }
-    .map-location h4 {
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .map-location p {
-      font-size: 13px;
+    .map-box-address {
+      font-size: 14px;
       color: #666;
       font-weight: 300;
+      line-height: 1.6;
+    }
+    .map-box-time {
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      color: var(--terracotta);
+    }
+    .map-box-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 10px 24px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50px;
+      text-decoration: none;
+      color: var(--dark);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .map-box-link:hover {
+      background: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(201,169,110,0.3);
+      transform: translateY(-1px);
+    }
+    .map-box-link svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
     }
 
     /* === TRAVEL & ACCOMMODATION === */
@@ -478,9 +589,35 @@
       margin-bottom: 48px;
     }
     .travel-card {
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.7);
       border-radius: 16px;
       padding: 36px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(201,169,110,0.08);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .travel-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .travel-card.recommended {
+      border-color: rgba(201,169,110,0.35);
+      position: relative;
+    }
+    .travel-card.recommended::before {
+      content: '★ Vår rekommendation';
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      color: #fff;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(201,169,110,0.3);
     }
     .travel-card h3 {
       font-size: 12px;
@@ -548,12 +685,22 @@
 
     /* === FOOTER === */
     footer {
-      background: var(--dark);
+      background: linear-gradient(180deg, var(--dark) 0%, #1a130d 100%);
       color: rgba(255,255,255,0.7);
       text-align: center;
       padding: 60px 40px;
       font-size: 12px;
       letter-spacing: 0.1em;
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
     }
     footer .footer-names {
       font-family: 'Cormorant Garamond', serif;
@@ -620,7 +767,13 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: var(--terracotta);
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timeline-item:hover::before {
+      transform: scale(1.3);
+      box-shadow: 0 0 0 5px rgba(201,169,110,0.15);
     }
     .timeline-item .time {
       font-size: 12px;
@@ -754,9 +907,39 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .hero-left, .hero-right {
-      animation: fadeInUp 1s ease forwards;
+      animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
     .hero-right { animation-delay: 0.3s; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Section heading decoration */
+    .section-heading-decorated {
+      position: relative;
+      display: inline-block;
+    }
+    .section-heading-decorated::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
 
     /* === HAMBURGER === */
     .nav-links {
@@ -847,7 +1030,6 @@
 
       .map-section { padding: 60px 24px; }
       .map-container { grid-template-columns: 1fr; padding: 0; }
-      .map-locations { flex-direction: column; gap: 20px; }
 
       .travel-inner { padding: 0 24px; }
       .travel-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -929,7 +1111,7 @@
   <section class="info-section" id="vigseln">
     <div class="info-cards">
       <!-- Vigseln -->
-      <div class="info-card">
+      <div class="info-card reveal reveal-delay-1">
         <div class="info-icon sage-bg">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 4 L16 2 M16 4 L6 14 L6 28 L26 28 L26 14 Z M12 28 L12 20 L20 20 L20 28 M9 14 L16 8 L23 14"/>
@@ -941,7 +1123,7 @@
         <p>Vi gifter oss i vackra Dillnäs kyrka lördagen den 10 oktober 2026 klockan 13.00.</p>
       </div>
       <!-- Festen -->
-      <div class="info-card" id="festen">
+      <div class="info-card reveal reveal-delay-2" id="festen">
         <div class="info-icon blush-bg">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 28 L10 14 M22 28 L22 14" stroke-linecap="round"/>
@@ -956,7 +1138,7 @@
         <p>Efter vigseln fortsätter vi firandet på Hellegården med middag, dans och massor av kärlek.</p>
       </div>
       <!-- Praktisk info -->
-      <div class="info-card">
+      <div class="info-card reveal reveal-delay-3">
         <div class="info-icon sage-bg">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <rect x="6" y="10" width="20" height="16" rx="2" fill="none"/>
@@ -981,26 +1163,39 @@
 
   <!-- Map Section -->
   <section class="map-section" id="karta">
-    <h2>Hitta hit</h2>
-    <p class="subtitle">Vigseln i Dillnäs kyrka &nbsp;·&nbsp; Festen på Hellegården</p>
-    <div class="map-container">
+    <h2 class="reveal">Hitta hit</h2>
+    <p class="subtitle reveal">Vigseln i Dillnäs kyrka &nbsp;·&nbsp; Festen på Hellegården</p>
+    <div class="map-container reveal">
       <div class="map-box">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3517.408150042631!2d17.234850077859967!3d59.1149385281625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f19b3c170ea65%3A0x83c87a5c6ed190a7!2sDilln%C3%A4s%20kyrka!5e1!3m2!1ssv!2sse!4v1777880314147!5m2!1ssv!2sse" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <p class="map-box-label">Dillnäs kyrka</p>
+        <div class="map-box-icon church">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 4 L16 2 M16 4 L6 14 L6 28 L26 28 L26 14 Z M12 28 L12 20 L20 20 L20 28 M9 14 L16 8 L23 14"/>
+            <path d="M14 4 L16 2 L18 4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="map-box-label">Vigseln</p>
+        <p class="map-box-address">Dillnäs kyrka<br>646 93 Gnesta</p>
+        <p class="map-box-time">Kl 13:00</p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Dilln%C3%A4s+kyrka,+Gnesta" target="_blank" rel="noopener" class="map-box-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Vägbeskrivning
+        </a>
       </div>
       <div class="map-box">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516.6744973804784!2d17.211313977860264!3d59.12208632759163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f1907777bdc67%3A0x6a9a32ee4bc1c573!2sHELLEG%C3%85RDEN%2C%20646%2093%20Gnesta!5e1!3m2!1ssv!2sse!4v1777880334762!5m2!1ssv!2sse" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <p class="map-box-label">Hellegården</p>
-      </div>
-    </div>
-    <div class="map-locations">
-      <div class="map-location">
-        <h4>Vigseln</h4>
-        <p>Dillnäs kyrka, kl 13.00</p>
-      </div>
-      <div class="map-location">
-        <h4>Festen</h4>
-        <p>Hellegården</p>
+        <div class="map-box-icon party">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 28 L10 14 M22 28 L22 14" stroke-linecap="round"/>
+            <path d="M6 14 L14 14 C14 10 10 8 10 4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 14 L26 14 C26 10 22 8 22 4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="map-box-label">Festen</p>
+        <p class="map-box-address">Hellegården<br>646 93 Gnesta</p>
+        <p class="map-box-time">Middag & dans</p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=HELLEG%C3%85RDEN,+646+93+Gnesta" target="_blank" rel="noopener" class="map-box-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Vägbeskrivning
+        </a>
       </div>
     </div>
   </section>
@@ -1016,13 +1211,13 @@
   <!-- Travel & Accommodation -->
   <section class="travel-section" id="resa">
     <div class="travel-inner">
-      <h2>Resa & Boende</h2>
-      <div class="travel-grid">
+      <h2 class="reveal">Resa & Boende</h2>
+      <div class="travel-grid reveal">
         <div class="travel-card">
        <h3>🏰 Södertuna Slott</h3>
        <p>Här bor brudparet under bröllpshelgen. Närmaste boendet men eventuellt lite dyrare. Boka i tid ifall ni vill bo här.</p>
      </div>
-        <div class="travel-card">
+        <div class="travel-card recommended">
           <h3>🏨 Mariefred</h3>
           <p>Mysiga Mariefred har fina hotell och B&B med charm — perfekt för en hösthelg.</p>
         </div>
@@ -1048,9 +1243,9 @@
 
   <!-- Dress Code -->
   <section class="dresscode-section">
-    <h2>Klädkod</h2>
-    <p class="dresscode-name">Kavaj</p>
-    <p class="dresscode-desc">Vi önskar kostym eller kavaj för herrarna och klänning eller motsvarande för damerna. Klä er fint och fira med oss! Tänk på att det är ett höstbröllop i oktober — det kan bli lite kyligt och regnigt, så ta gärna med en varm jacka för utomhusstunderna.</p>
+    <h2 class="reveal">Klädkod</h2>
+    <p class="dresscode-name reveal">Kavaj</p>
+    <p class="dresscode-desc reveal">Vi önskar kostym eller kavaj för herrarna och klänning eller motsvarande för damerna. Klä er fint och fira med oss! Tänk på att det är ett höstbröllop i oktober — det kan bli lite kyligt och regnigt, så ta gärna med en varm jacka för utomhusstunderna.</p>
   </section>
 
   <!-- Wave Divider: cream → blush-light -->
@@ -1063,8 +1258,8 @@
 
   <!-- Timeline Section -->
   <section class="timeline-section" id="schema">
-    <h2>Dagens program</h2>
-    <div class="timeline">
+    <h2 class="reveal">Dagens program</h2>
+    <div class="timeline reveal">
       <div class="timeline-item">
         <p class="time">12:00</p>
         <p class="event">Kyrkan öppnar</p>
@@ -1111,8 +1306,8 @@
 
   <!-- Tal & Toastmaster -->
   <section class="speeches-section">
-    <h2>Tal & underhållning</h2>
-    <p>Vill du hålla ett tal, sjunga en sång eller bidra med underhållning under kvällen? Vad roligt! Kontakta vår toastmaster så hjälper hen att planera in det i programmet.</p>
+    <h2 class="reveal">Tal & underhållning</h2>
+    <p class="reveal">Vill du hålla ett tal, sjunga en sång eller bidra med underhållning under kvällen? Vad roligt! Kontakta vår toastmaster så hjälper hen att planera in det i programmet.</p>
     <p class="toastmaster-name">Toastmaster: TBD</p>
     <p>Håll gärna tal och nummer kort (max 5 min) så att vi hinner med allt och alla kan njuta av kvällen.</p>
   </section>
@@ -1127,8 +1322,8 @@
 
   <!-- Önskelista -->
   <section class="gifts-section">
-    <h2>Gåvor</h2>
-    <p>Den allra finaste presenten är att ni kommer och firar med oss! ♡
+    <h2 class="reveal">Gåvor</h2>
+    <p class="reveal">Den allra finaste presenten är att ni kommer och firar med oss! ♡
     <br> Om ni ändå vill ge något så önskar vi oss ett bidrag till vår bröllopsresa.</p>
   </section>
 
@@ -1150,8 +1345,8 @@
 
   <!-- FAQ -->
   <section class="faq-section" id="faq">
-    <h2>Vanliga frågor</h2>
-    <div class="faq-list">
+    <h2 class="reveal">Vanliga frågor</h2>
+    <div class="faq-list reveal">
       <div class="faq-item">
         <h4>När ska vi vara på plats?</h4>
         <p>Kyrkan öppnar 12:00 — var gärna på plats senast 12:45 så att vi kan börja 13:00 prick.</p>
@@ -1187,14 +1382,14 @@
   <!-- Bottom Section with Countdown -->
   <section class="bottom-section" id="osa">
     <div class="bottom-inner">
-      <div class="bottom-left">
+      <div class="bottom-left reveal">
         <p class="script-large">Vi kan knappt</p>
         <p class="serif-large">Vänta!</p>
         <p class="heart">♡</p>
         <p class="body-text">Den här dagen betyder allt och vi är så glada att få dela den med våra favoritmänniskor – er!</p>
         <p class="signature">Sara &amp; Joakim</p>
       </div>
-      <div class="countdown-card">
+      <div class="countdown-card reveal reveal-delay-2">
         <p class="label">Nedräkning till vår dag</p>
         <p class="ornament">~ ∿ ~</p>
         <div class="countdown" id="countdown">
@@ -1282,6 +1477,23 @@
     document.addEventListener('click', function(e) {
       if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
     });
+
+    // Nav shrink on scroll
+    window.addEventListener('scroll', function() {
+      navEl.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal animations
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function(el) { observer.observe(el); });
   </script>
 </body>
 </html>
