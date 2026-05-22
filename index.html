@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sara & Joakim — 10 Oktober 2026</title>
+  <meta property="og:title" content="Sara & Joakim — 10 Oktober 2026">
+  <meta property="og:description" content="Vi gifter oss! Följ med till Dillnäs kyrka och Södertuna Slott den 10 oktober 2026.">
+  <meta property="og:image" content="https://moleni.se/sara-joakim.png">
+  <meta property="og:url" content="https://moleni.se">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -901,6 +907,65 @@
       font-weight: 300;
     }
 
+    /* === ENTRANCE LOADER === */
+    .entrance-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99999;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.8s;
+    }
+    .entrance-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .entrance-monogram {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--dark);
+      opacity: 0;
+      transform: scale(0.8);
+      animation: entranceReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+    }
+    .entrance-monogram .entrance-amp {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 8px;
+    }
+    .entrance-line {
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      animation: entranceLine 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+    }
+    .entrance-date {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #999;
+      opacity: 0;
+      animation: entranceFade 0.8s ease 1.2s forwards;
+    }
+    @keyframes entranceReveal {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes entranceLine {
+      to { width: 80px; }
+    }
+    @keyframes entranceFade {
+      to { opacity: 1; }
+    }
+
     /* === ANIMATIONS === */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
@@ -1053,9 +1118,215 @@
       .countdown { gap: 10px; }
       .countdown-item .num { font-size: 28px; }
     }
+
+    /* =============================================
+       PREMIUM ENHANCEMENTS
+       ============================================= */
+
+    /* === SCROLL PROGRESS === */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--terracotta), var(--gold));
+      z-index: 10001;
+      pointer-events: none;
+    }
+
+    /* === CUSTOM SCROLLBAR === */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--terracotta), var(--gold));
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    html { scrollbar-width: thin; scrollbar-color: var(--gold) var(--cream); }
+
+    /* === HERO STAGGER === */
+    .hero-left {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+    .hero-left > * {
+      opacity: 0;
+      animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    .hero-left > *:nth-child(1) { animation-delay: 0.2s; }
+    .hero-left > *:nth-child(2) { animation-delay: 0.45s; }
+    .hero-left > *:nth-child(3) { animation-delay: 0.7s; }
+    .hero-left > *:nth-child(4) { animation-delay: 0.85s; }
+    .hero-left > *:nth-child(5) { animation-delay: 1.0s; }
+    .hero-left > *:nth-child(6) { animation-delay: 1.15s; }
+
+    /* === ANIMATED TIMELINE === */
+    .timeline::before {
+      bottom: auto !important;
+      height: 0 !important;
+      transition: height 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .timeline.timeline-active::before {
+      height: calc(100% - 16px) !important;
+    }
+    .timeline .timeline-item {
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .timeline .timeline-item.timeline-item-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* === COUNTDOWN FLIP === */
+    .countdown-item .num {
+      display: inline-block;
+    }
+    .countdown-item .num.flip {
+      animation: digitFlip 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    @keyframes digitFlip {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      35% { transform: translateY(-6px) scale(1.08); opacity: 0.5; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* === NAV SMOOTH UNDERLINES === */
+    .nav-links a:not(.btn-nav) {
+      position: relative;
+    }
+    .nav-links a:not(.btn-nav)::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--terracotta), var(--gold));
+      transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .nav-links a:not(.btn-nav):hover::after {
+      width: 100%;
+    }
+
+    /* === FOCUS VISIBLE === */
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* === 3D PHOTO TILT === */
+    .hero-right {
+      perspective: 800px;
+    }
+    .arch-photo {
+      transition: transform 0.12s ease-out, box-shadow 0.5s ease;
+    }
+
+    /* === MAGNETIC BUTTONS === */
+    @supports (translate: 0 0) {
+      nav .btn-nav, .btn-osa {
+        translate: 0 0;
+      }
+    }
+
+    /* === FLOATING BOTANICALS === */
+    .hero { position: relative; overflow: hidden; }
+    .botanical {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.09;
+      z-index: 0;
+    }
+    .botanical svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--gold);
+      stroke-width: 0.8;
+      fill: none;
+    }
+    .botanical-1 {
+      top: 14%;
+      right: 3%;
+      width: 80px;
+      height: 80px;
+      animation: floatSlow 9s ease-in-out infinite;
+    }
+    .botanical-2 {
+      bottom: 18%;
+      left: 3%;
+      width: 65px;
+      height: 65px;
+      animation: floatSlow 11s ease-in-out infinite reverse;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(4deg); }
+    }
+
+    /* === ENHANCED ENTRANCE === */
+    .entrance-overlay { overflow: hidden; }
+    .entrance-ring {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      opacity: 0;
+      animation: entranceRingPulse 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+    }
+    .entrance-ring:nth-child(2) {
+      animation-delay: 1.0s;
+    }
+    @keyframes entranceRingPulse {
+      0% { opacity: 0; transform: scale(0.3); }
+      30% { opacity: 0.5; }
+      100% { opacity: 0; transform: scale(3); }
+    }
+
+    /* === SCROLL PROGRESS MOBILE === */
+    @media (max-width: 768px) {
+      .botanical { display: none; }
+      .nav-links a:not(.btn-nav)::after { display: none; }
+    }
+
+    /* === PREFERS REDUCED MOTION === */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .hero-names { animation: none; background-position: 0% center; }
+      .hero-badge { animation: none; }
+      .hero-left > * { opacity: 1; animation: none; }
+      .hero-left, .hero-right { opacity: 1; animation: none; }
+      .reveal { opacity: 1; transform: none; }
+      .entrance-overlay { display: none; }
+      .botanical { display: none; }
+      .scroll-progress { display: none; }
+      .timeline .timeline-item { opacity: 1; transform: none; }
+      .timeline::before { height: calc(100% - 16px) !important; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Entrance Loader -->
+  <div class="entrance-overlay" id="entrance">
+    <div class="entrance-ring"></div>
+    <div class="entrance-ring"></div>
+    <div class="entrance-monogram">S <span class="entrance-amp">&</span> J</div>
+    <div class="entrance-line"></div>
+    <p class="entrance-date">10 Oktober 2026</p>
+  </div>
 
   <!-- Logo -->
   <div class="logo">
@@ -1097,6 +1368,20 @@
         <span>Vi längtar efter att fira med er! ♡</span>
       </div>
     </div>
+
+    <!-- Floating Botanicals -->
+    <div class="botanical botanical-1">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 75 C40 75 40 40 40 20 C40 10 50 5 55 15 C60 25 50 35 40 35 M40 35 C30 35 20 25 25 15 C30 5 40 10 40 20"/>
+        <path d="M40 50 C35 45 25 48 28 55 C31 62 40 58 40 50 M40 50 C45 45 55 48 52 55 C49 62 40 58 40 50"/>
+      </svg>
+    </div>
+    <div class="botanical botanical-2">
+      <svg viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 55 C15 40 25 35 35 30 C30 25 28 15 35 10 C42 5 45 15 40 22 M35 30 C40 28 50 30 52 38 C54 46 45 48 38 42"/>
+        <path d="M20 50 C22 42 28 40 32 38"/>
+      </svg>
+    </div>
   </section>
 
   <!-- Wave Divider: cream → cream -->
@@ -1126,16 +1411,18 @@
       <div class="info-card reveal reveal-delay-2" id="festen">
         <div class="info-icon blush-bg">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 28 L10 14 M22 28 L22 14" stroke-linecap="round"/>
-            <path d="M6 14 L14 14 C14 10 10 8 10 4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 14 L26 14 C26 10 22 8 22 4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M13 16 L19 12" stroke-linecap="round"/>
-            <circle cx="10" cy="3" r="1" fill="none"/>
-            <circle cx="22" cy="3" r="1" fill="none"/>
+            <path d="M8 28 L12 28" stroke-linecap="round"/>
+            <path d="M10 28 L10 18" stroke-linecap="round"/>
+            <path d="M7 6 L7 12 C7 15.5 10 18 10 18 C10 18 13 15.5 13 12 L13 6" stroke-linejoin="round"/>
+            <path d="M20 28 L24 28" stroke-linecap="round"/>
+            <path d="M22 28 L22 18" stroke-linecap="round"/>
+            <path d="M19 6 L19 12 C19 15.5 22 18 22 18 C22 18 25 15.5 25 12 L25 6" stroke-linejoin="round"/>
+            <path d="M13 10 L19 8" stroke-linecap="round"/>
+            <path d="M15 5 L16 4 M17 6 L18 5" stroke-linecap="round" stroke-width="1"/>
           </svg>
         </div>
         <h3>Festen</h3>
-        <p>Efter vigseln fortsätter vi firandet på Hellegården med middag, dans och massor av kärlek.</p>
+        <p>Efter vigseln fortsätter vi firandet på Södertuna Slott med middag, dans och massor av kärlek.</p>
       </div>
       <!-- Praktisk info -->
       <div class="info-card reveal reveal-delay-3">
@@ -1164,7 +1451,7 @@
   <!-- Map Section -->
   <section class="map-section" id="karta">
     <h2 class="reveal">Hitta hit</h2>
-    <p class="subtitle reveal">Vigseln i Dillnäs kyrka &nbsp;·&nbsp; Festen på Hellegården</p>
+    <p class="subtitle reveal">Vigseln i Dillnäs kyrka &nbsp;·&nbsp; Festen på Södertuna Slott</p>
     <div class="map-container reveal">
       <div class="map-box">
         <div class="map-box-icon church">
@@ -1184,15 +1471,19 @@
       <div class="map-box">
         <div class="map-box-icon party">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 28 L10 14 M22 28 L22 14" stroke-linecap="round"/>
-            <path d="M6 14 L14 14 C14 10 10 8 10 4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 14 L26 14 C26 10 22 8 22 4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 28 L12 28" stroke-linecap="round"/>
+            <path d="M10 28 L10 18" stroke-linecap="round"/>
+            <path d="M7 6 L7 12 C7 15.5 10 18 10 18 C10 18 13 15.5 13 12 L13 6" stroke-linejoin="round"/>
+            <path d="M20 28 L24 28" stroke-linecap="round"/>
+            <path d="M22 28 L22 18" stroke-linecap="round"/>
+            <path d="M19 6 L19 12 C19 15.5 22 18 22 18 C22 18 25 15.5 25 12 L25 6" stroke-linejoin="round"/>
+            <path d="M13 10 L19 8" stroke-linecap="round"/>
           </svg>
         </div>
         <p class="map-box-label">Festen</p>
-        <p class="map-box-address">Hellegården<br>646 93 Gnesta</p>
+        <p class="map-box-address">Södertuna Slott<br>646 91 Gnesta</p>
         <p class="map-box-time">Middag & dans</p>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=HELLEG%C3%85RDEN,+646+93+Gnesta" target="_blank" rel="noopener" class="map-box-link">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=S%C3%B6dertuna+Slott,+646+91+Gnesta" target="_blank" rel="noopener" class="map-box-link">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
           Vägbeskrivning
         </a>
@@ -1212,12 +1503,46 @@
   <section class="travel-section" id="resa">
     <div class="travel-inner">
       <h2 class="reveal">Resa & Boende</h2>
+      <!-- Södertuna Slott illustration -->
+      <div class="reveal" style="text-align:center;margin-bottom:36px;opacity:0.6">
+        <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="width:280px;height:auto" fill="none" stroke="var(--dark)" stroke-width="0.8">
+          <!-- Main building -->
+          <rect x="120" y="45" width="160" height="50" rx="1"/>
+          <!-- Windows -->
+          <rect x="140" y="55" width="12" height="16" rx="1"/><rect x="160" y="55" width="12" height="16" rx="1"/>
+          <rect x="228" y="55" width="12" height="16" rx="1"/><rect x="248" y="55" width="12" height="16" rx="1"/>
+          <!-- Main entrance -->
+          <path d="M190 95 L190 60 Q200 52 210 60 L210 95"/>
+          <!-- Left tower -->
+          <rect x="100" y="30" width="30" height="65" rx="1"/>
+          <path d="M100 30 L115 18 L130 30"/>
+          <rect x="110" y="40" width="10" height="14" rx="1"/>
+          <rect x="110" y="62" width="10" height="14" rx="1"/>
+          <!-- Right tower -->
+          <rect x="270" y="30" width="30" height="65" rx="1"/>
+          <path d="M270 30 L285 18 L300 30"/>
+          <rect x="280" y="40" width="10" height="14" rx="1"/>
+          <rect x="280" y="62" width="10" height="14" rx="1"/>
+          <!-- Roof details -->
+          <path d="M120 45 L200 28 L280 45"/>
+          <!-- Flag -->
+          <line x1="200" y1="28" x2="200" y2="14"/>
+          <path d="M200 14 L212 18 L200 22" fill="var(--terracotta)" stroke="none"/>
+          <!-- Ground line -->
+          <path d="M60 95 C100 93 140 95 200 95 C260 95 300 93 340 95" stroke-width="0.5"/>
+          <!-- Trees -->
+          <ellipse cx="75" cy="80" rx="14" ry="18" stroke-width="0.6"/>
+          <line x1="75" y1="95" x2="75" y2="85"/>
+          <ellipse cx="330" cy="80" rx="14" ry="18" stroke-width="0.6"/>
+          <line x1="330" y1="95" x2="330" y2="85"/>
+        </svg>
+      </div>
       <div class="travel-grid reveal">
-        <div class="travel-card">
-       <h3>🏰 Södertuna Slott</h3>
-       <p>Här bor brudparet under bröllpshelgen. Närmaste boendet men eventuellt lite dyrare. Boka i tid ifall ni vill bo här.</p>
-     </div>
         <div class="travel-card recommended">
+          <h3>🏰 Södertuna Slott</h3>
+          <p>Här bor brudparet under bröllopet — och här hålls festen! Närmaste boendet och ni slipper transport hem. Boka i tid.</p>
+        </div>
+        <div class="travel-card">
           <h3>🏨 Mariefred</h3>
           <p>Mysiga Mariefred har fina hotell och B&B med charm — perfekt för en hösthelg.</p>
         </div>
@@ -1227,7 +1552,7 @@
         </div>
         <div class="travel-card">
           <h3>🚗 Transport</h3>
-          <p>Vi ordnar skjuts! En utsedd förare kör gäster mellan kyrkan och festlokalen, och på kvällen/natten tillbaka till Mariefred eller Gnesta. Ni behöver inte tänka på bil – bara njuta av festen.</p>
+          <p>Vi ordnar skjuts! En utsedd förare kör gäster mellan kyrkan och Södertuna Slott. Samt på kvällen/natten tillbaka till Gnesta och Mariefred. Ni behöver inte tänka på bil – bara njuta av festen.</p>
         </div>
       </div>
     </div>
@@ -1259,7 +1584,7 @@
   <!-- Timeline Section -->
   <section class="timeline-section" id="schema">
     <h2 class="reveal">Dagens program</h2>
-    <div class="timeline reveal">
+    <div class="timeline">
       <div class="timeline-item">
         <p class="time">12:00</p>
         <p class="event">Kyrkan öppnar</p>
@@ -1272,7 +1597,7 @@
       <div class="timeline-item">
         <p class="time">14:30</p>
         <p class="event">Mingel & fördrink</p>
-        <p class="event-detail">Transport till Hellegården, bubbel och snittar</p>
+        <p class="event-detail">Transport till Södertuna Slott, bubbel och snittar</p>
       </div>
       <div class="timeline-item">
         <p class="time">16:30</p>
@@ -1291,7 +1616,6 @@
       <div class="timeline-item">
         <p class="time">00:00+</p>
         <p class="event">Tack för ikväll!</p>
-        <p class="event-detail">Skjuts till Mariefred/Gnesta</p>
       </div>
     </div>
   </section>
@@ -1304,12 +1628,10 @@
     </svg>
   </div>
 
-  <!-- Tal & Toastmaster -->
+  <!-- Tal & underhållning -->
   <section class="speeches-section">
     <h2 class="reveal">Tal & underhållning</h2>
-    <p class="reveal">Vill du hålla ett tal, sjunga en sång eller bidra med underhållning under kvällen? Vad roligt! Kontakta vår toastmaster så hjälper hen att planera in det i programmet.</p>
-    <p class="toastmaster-name">Toastmaster: TBD</p>
-    <p>Håll gärna tal och nummer kort (max 5 min) så att vi hinner med allt och alla kan njuta av kvällen.</p>
+    <p class="reveal">Vill du hålla ett tal, sjunga en sång eller bidra med underhållning under kvällen? Vad roligt! Kontakta oss så planerar vi in det i programmet.</p>
   </section>
 
   <!-- Wave Divider: cream → sage-light -->
@@ -1327,19 +1649,11 @@
     <br> Om ni ändå vill ge något så önskar vi oss ett bidrag till vår bröllopsresa.</p>
   </section>
 
-  <!-- Wave Divider: sage-light → cream -->
-  <div class="wave-divider">
-    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L0,45 C360,95 720,10 1080,55 C1280,80 1380,35 1440,45 L1440,0 Z" fill="#c8d4a9"/>
-      <path d="M0,45 C360,95 720,10 1080,55 C1280,80 1380,35 1440,45 L1440,100 L0,100 Z" fill="#faf6f1"/>
-    </svg>
-  </div>
-
-  <!-- Wave Divider: cream → blush-light -->
+  <!-- Wave Divider: sage-light → blush-light -->
   <div class="wave-divider">
     <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L0,60 C200,110 440,20 680,70 C920,120 1200,35 1440,65 L1440,0 Z" fill="#faf6f1"/>
-      <path d="M0,60 C200,110 440,20 680,70 C920,120 1200,35 1440,65 L1440,120 L0,120 Z" fill="#f5e6db"/>
+      <path d="M0,0 L0,50 C360,100 720,15 1080,60 C1280,85 1380,40 1440,50 L1440,0 Z" fill="#c8d4a9"/>
+      <path d="M0,50 C360,100 720,15 1080,60 C1280,85 1380,40 1440,50 L1440,120 L0,120 Z" fill="#f5e6db"/>
     </svg>
   </div>
 
@@ -1353,7 +1667,7 @@
       </div>
       <div class="faq-item">
         <h4>Var kan jag parkera?</h4>
-        <p>Det kommer gå att ordna parkering vid både kyrkan och vid Hellegården. Meddela gärna om ni har egen bil så kan vi planera.</p>
+        <p>Det kommer gå att ordna parkering vid både kyrkan och vid Södertuna Slott. Meddela gärna om ni har egen bil så kan vi planera.</p>
       </div>
       <div class="faq-item">
         <h4>Jag har allergier / specialkost — vad gör jag?</h4>
@@ -1366,16 +1680,16 @@
       </div>
       <div class="faq-item">
         <h4>Hur tar jag mig hem efter festen?</h4>
-        <p>Vi ordnar med skjuts till Mariefred och Gnesta vid festens slut (~01:00). Meddela gärna i god tid vart ni behöver åka.</p>
+        <p>Vi ordnar med skjuts till ert boende vid festens slut. Bor ni på slottet är ni redan hemma!</p>
       </div>
     </div>
   </section>
 
-  <!-- Wave Divider: cream → blush -->
-  <div class="wave-divider">
-    <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L0,40 C180,100 360,20 540,60 C720,100 900,30 1080,70 C1260,110 1380,50 1440,60 L1440,0 Z" fill="#faf6f1"/>
-      <path d="M0,40 C180,100 360,20 540,60 C720,100 900,30 1080,70 C1260,110 1380,50 1440,60 L1440,140 L0,140 Z" fill="#f5e6db"/>
+  <!-- Decorative separator -->
+  <div style="text-align:center;padding:20px 0;background:var(--blush-light)">
+    <svg width="120" height="20" viewBox="0 0 120 20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5">
+      <path d="M10 10 C25 10 30 4 45 4 C55 4 55 16 65 16 C75 16 75 4 85 4 C95 4 100 10 110 10" stroke-linecap="round"/>
+      <circle cx="5" cy="10" r="1.5"/><circle cx="115" cy="10" r="1.5"/>
     </svg>
   </div>
 
@@ -1433,14 +1747,18 @@
     <p class="footer-hashtag">@saraochjoakim2026 &nbsp;|&nbsp; #vårdag</p>
   </footer>
 
-  <!-- Countdown Script -->
+  <!-- Enhanced Script -->
   <script>
     (function() {
-      const weddingDate = new Date('2026-10-10T13:00:00');
+      'use strict';
+
+      // === COUNTDOWN WITH FLIP ANIMATION ===
+      var weddingDate = new Date('2026-10-10T13:00:00');
+      var prevValues = { days: '', hours: '', mins: '', secs: '' };
 
       function updateCountdown() {
-        const now = new Date();
-        const diff = weddingDate - now;
+        var now = new Date();
+        var diff = weddingDate - now;
 
         if (diff <= 0) {
           document.getElementById('cd-days').textContent = '0';
@@ -1450,50 +1768,127 @@
           return;
         }
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        var days = String(Math.floor(diff / (1000 * 60 * 60 * 24)));
+        var hours = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        var mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        var secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
 
-        document.getElementById('cd-days').textContent = days;
-        document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
-        document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+        var ids = { days: 'cd-days', hours: 'cd-hours', mins: 'cd-mins', secs: 'cd-secs' };
+        var vals = { days: days, hours: hours, mins: mins, secs: secs };
+
+        Object.keys(vals).forEach(function(key) {
+          var el = document.getElementById(ids[key]);
+          if (el && vals[key] !== prevValues[key]) {
+            el.textContent = vals[key];
+            el.classList.remove('flip');
+            void el.offsetWidth;
+            el.classList.add('flip');
+          }
+        });
+        prevValues = vals;
       }
 
       updateCountdown();
       setInterval(updateCountdown, 1000);
-    })();
 
-    // Hamburger menu
-    var navEl = document.querySelector('nav');
-    document.querySelector('.nav-hamburger').addEventListener('click', function(e) {
-      e.stopPropagation();
-      navEl.classList.toggle('nav-open');
-    });
-    document.querySelectorAll('.nav-links a').forEach(function(link) {
-      link.addEventListener('click', function() { navEl.classList.remove('nav-open'); });
-    });
-    document.addEventListener('click', function(e) {
-      if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
-    });
-
-    // Nav shrink on scroll
-    window.addEventListener('scroll', function() {
-      navEl.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    // Scroll reveal animations
-    var reveals = document.querySelectorAll('.reveal');
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
+      // === HAMBURGER MENU ===
+      var navEl = document.querySelector('nav');
+      document.querySelector('.nav-hamburger').addEventListener('click', function(e) {
+        e.stopPropagation();
+        navEl.classList.toggle('nav-open');
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(function(el) { observer.observe(el); });
+      document.querySelectorAll('.nav-links a').forEach(function(link) {
+        link.addEventListener('click', function() { navEl.classList.remove('nav-open'); });
+      });
+      document.addEventListener('click', function(e) {
+        if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
+      });
+
+      // === NAV SHRINK + SCROLL PROGRESS ===
+      var progressBar = document.getElementById('scrollProgress');
+      window.addEventListener('scroll', function() {
+        navEl.classList.toggle('scrolled', window.scrollY > 60);
+
+        // Scroll progress
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0) {
+          progressBar.style.width = ((scrollTop / docHeight) * 100) + '%';
+        }
+      }, { passive: true });
+
+      // === SCROLL REVEAL ===
+      var reveals = document.querySelectorAll('.reveal');
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(function(el) { revealObserver.observe(el); });
+
+      // === ANIMATED TIMELINE ===
+      var timeline = document.querySelector('.timeline');
+      if (timeline) {
+        var timelineItems = timeline.querySelectorAll('.timeline-item');
+        var timelineObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              timeline.classList.add('timeline-active');
+              timelineItems.forEach(function(item, i) {
+                setTimeout(function() {
+                  item.classList.add('timeline-item-visible');
+                }, 250 + i * 150);
+              });
+              timelineObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        timelineObserver.observe(timeline);
+      }
+
+      // === 3D PHOTO TILT (desktop only) ===
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        var heroRight = document.querySelector('.hero-right');
+        var archPhoto = document.querySelector('.arch-photo');
+        if (heroRight && archPhoto) {
+          heroRight.addEventListener('mousemove', function(e) {
+            var rect = heroRight.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / rect.width - 0.5;
+            var y = (e.clientY - rect.top) / rect.height - 0.5;
+            archPhoto.style.transform = 'rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 6) + 'deg)';
+          });
+          heroRight.addEventListener('mouseleave', function() {
+            archPhoto.style.transform = '';
+          });
+        }
+
+        // === MAGNETIC BUTTONS (desktop only) ===
+        document.querySelectorAll('nav .btn-nav, .btn-osa').forEach(function(btn) {
+          btn.addEventListener('mousemove', function(e) {
+            var rect = btn.getBoundingClientRect();
+            var x = e.clientX - rect.left - rect.width / 2;
+            var y = e.clientY - rect.top - rect.height / 2;
+            btn.style.translate = (x * 0.15) + 'px ' + (y * 0.15) + 'px';
+          });
+          btn.addEventListener('mouseleave', function() {
+            btn.style.translate = '';
+          });
+        });
+      }
+
+      // === ENTRANCE LOADER ===
+      setTimeout(function() {
+        var entrance = document.getElementById('entrance');
+        if (entrance) {
+          entrance.classList.add('fade-out');
+          setTimeout(function() { entrance.remove(); }, 900);
+        }
+      }, 2600);
+
+    })();
   </script>
 </body>
 </html>
